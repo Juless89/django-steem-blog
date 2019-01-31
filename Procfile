@@ -1,0 +1,1 @@
+web: gunicorn steem_blog.wsgi --log-file -
