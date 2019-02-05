@@ -11,9 +11,37 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2" focusable="false" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
         <strong>Blog</strong>
       </a>
+      <div id="ticker" class="navbar-brand">Steem $  SBD $</div>
     </div>
   </div>
 </header>
+
+<script>
+  //url path to data
+  var endpoint = '/api/ticker/data'
+ 
+  // Ajax GET request to the API endpoint, on success parse the data
+  // into a string to id=ticker div.
+  function get_ticker()
+    {
+      $.ajax({
+      method: "GET",
+      url: endpoint,
+      success: function(data){
+        var string = 'STEEM $' + data.STEEM + ' SBD $' + data.SBD
+        $('#ticker').html(string);
+      },
+      error: function(error_data){
+        console.log(error_data)
+      }
+    })
+  } 
+
+  // Load on page load, then load every 5000/1000 seconds.
+  $(document).ready(get_ticker);
+  setInterval("get_ticker();",5000); 
+
+</script>
 
 <main role="main">
 
