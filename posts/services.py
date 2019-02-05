@@ -4,7 +4,7 @@ from beem.comment import Comment
 from beem.exceptions import ContentDoesNotExistsException
 from beem import Steem
 
-import re
+import re, requests, json
 
 # retrieve account blog history
 def account_history(username):
@@ -20,3 +20,13 @@ def account_history(username):
         return_data.append([blog, ('https://steemitimages.com/640x480/' + url[0])])
 
     return return_data
+
+# Get request for coinmarketcap, returns a string of the current price
+def get_market_price(token):
+    api_url = 'https://api.coinmarketcap.com/v1/ticker/{}/'.format(token)
+    response = requests.get(api_url)
+
+    if response.status_code == 200:
+        return json.loads(response.content.decode('utf-8'))[0]['price_usd']
+    else:
+        return None
